@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -18,14 +19,15 @@ import android.view.View;
 public class DashIndicator extends View {
 
     private Paint mPaint;
-    private float mIndicatorHeight;
+    private int mIndicatorHeight;
     private float mLongLength;
     private float mShortLength;
     private float mIndicatorSpace;
-    private int mIndicatorColor;
     private ViewPager mViewPager;
     private int mPageCount;
     private int mCurrentPosition;
+    private RectF mRectF;
+    private boolean roundCap = true;
 
 
     public DashIndicator(Context context) {
@@ -35,27 +37,54 @@ public class DashIndicator extends View {
     public DashIndicator(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.DashIndicator);
-        mIndicatorHeight = typedArray.getDimension(R.styleable.DashIndicator_dash_indicator_height, 5);
-        mLongLength = typedArray.getDimension(R.styleable.DashIndicator_dash_indicator_long_length, 20);
-        mShortLength = typedArray.getDimension(R.styleable.DashIndicator_dash_indicator_short_length, 8);
-        mIndicatorSpace = typedArray.getDimension(R.styleable.DashIndicator_dash_indicator_space, 5);
-        mIndicatorColor = typedArray.getColor(R.styleable.DashIndicator_dish_indicator_color, 0xffffffff);
+        mIndicatorHeight = (int) typedArray.getDimension(R.styleable.DashIndicator_dash_indicator_height, 15);
+        mLongLength = typedArray.getDimension(R.styleable.DashIndicator_dash_indicator_long_length, 105);
+        mShortLength = typedArray.getDimension(R.styleable.DashIndicator_dash_indicator_short_length, 36);
+        mIndicatorSpace = typedArray.getDimension(R.styleable.DashIndicator_dash_indicator_space, 15);
+        int IndicatorColor = typedArray.getColor(R.styleable.DashIndicator_dish_indicator_color, 0xffffffff);
         typedArray.recycle();
 
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setColor(mIndicatorColor);
-
+        mPaint.setColor(IndicatorColor);
+        mRectF = new RectF();
     }
 
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        int width, height;
+        width = (int) (mLongLength + (mShortLength + mIndicatorSpace) * (mPageCount - 1));
+        height = mIndicatorHeight;
+        setMeasuredDimension(width, height);
+
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        drawIndicator(canvas);
 
+    }
 
+    private void drawIndicator(Canvas canvas) {
 
-
+        float left = 0;
+        float top = 0;
+        float right;
+        float bottom = mIndicatorHeight;
+        for (int i = 0; i < mPageCount; i++) {
+            boolean isLong = mCurrentPosition == i;
+            right = left + (isLong ? mLongLength : mShortLength);
+            mRectF.set(left, top, right, bottom);
+            if (roundCap) {
+                canvas.drawRoundRect(mRectF, mIndicatorHeight / 2, mIndicatorHeight / 2, mPaint);
+            } else {
+                canvas.drawRect(mRectF, mPaint);
+            }
+            left = right + mIndicatorSpace;
+        }
 
     }
 
