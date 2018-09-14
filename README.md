@@ -1,6 +1,8 @@
 # DashIndicator
 ![](https://img.shields.io/cocoapods/l/AFNetworking.svg) ![](https://img.shields.io/badge/release-v1.0.1-orange.svg)
 
+![](https://github.com/XuNeverMore/DashIndicator/blob/master/img/indicator.gif)
+
 ViewPager indicator with dash style.
 ## Step 1. Add the JitPack repository to your build file
 ```
