@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DashIndicator">
+        <attr name="dash_indicator_height" format="dimension|reference" />
+        <attr name="dash_indicator_long_length" format="dimension|reference" />
+        <attr name="dash_indicator_short_length" format="dimension|reference" />
+        <attr name="dash_indicator_space" format="dimension|reference"/>
+        <attr name="dish_indicator_color" format="color|reference"/>
+    </declare-styleable>
+</resources>
