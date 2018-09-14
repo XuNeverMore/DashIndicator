@@ -1,7 +1,6 @@
 # DashIndicator
 ViewPager indicator with dash style.
-Step 1. Add the JitPack repository to your build file
-
+## Step 1. Add the JitPack repository to your build file
 ```
 allprojects {
 		repositories {
@@ -10,9 +9,7 @@ allprojects {
 		}
 	}
 ```
-
-Step 2. Add the dependency
-
+## Step 2. Add the dependency
 ```
 dependencies {
 	        implementation 'com.github.XuNeverMore:DashIndicator:v1.0.1'
